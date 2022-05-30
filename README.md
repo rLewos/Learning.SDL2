@@ -1,1 +1,1 @@
-# Learning.SDL2
+# Learning SDL2
