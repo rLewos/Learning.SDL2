@@ -10,7 +10,7 @@ namespace Learn.SDL2
     public class Window
     {
         private IntPtr _window;
-        public IntPtr WindowSurface { get; set; }
+        public IntPtr WindowSurface { get; private set; }
         public Window()
         {
             _window = IntPtr.Zero;
