@@ -11,22 +11,26 @@ namespace Learn.SDL2
     {
         private IntPtr _window;
         public IntPtr WindowSurface { get; private set; }
-        public Window()
+        private int xSizeWindow = 0;
+        private int ySizeWindow = 0;
+        public Window(int xSize, int ySize)
         {
             _window = IntPtr.Zero;
+            xSizeWindow = xSize;
+            ySizeWindow = ySize;
         }
 
         public void Init()
         {
-
-            if (SDL.SDL_Init(SDL.SDL_INIT_VIDEO) == 0)
+            int IsInitialized = SDL.SDL_Init(SDL.SDL_INIT_VIDEO) ;
+            if (IsInitialized != 0)
             {
                 string log = string.Format("Could not initialize SDL: {0}", SDL.SDL_GetError());
                 Console.WriteLine(log);
                 throw new Exception(log);
             }
 
-            _window = SDL.SDL_CreateWindow("SDL - Hello World", SDL.SDL_WINDOWPOS_UNDEFINED, SDL.SDL_WINDOWPOS_UNDEFINED, 1024, 768, SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
+            _window = SDL.SDL_CreateWindow("SDL - Hello World", SDL.SDL_WINDOWPOS_UNDEFINED, SDL.SDL_WINDOWPOS_UNDEFINED, xSizeWindow, ySizeWindow, SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
             
             if (_window == IntPtr.Zero)
             {
@@ -38,9 +42,27 @@ namespace Learn.SDL2
             WindowSurface = SDL.SDL_GetWindowSurface(_window);
         }
 
+        /// <summary>
+        ///  Update screen.
+        /// </summary>
+        public void Update()
+        {
+            SDL.SDL_UpdateWindowSurface(_window);
+        }
+
+        /// <summary>
+        /// Draw on backbuffer.
+        /// </summary>
+        /// <param name="surface">Surface to be drawn on the backbuffer</param>
+        public void Draw(IntPtr surface)
+        {
+            SDL.SDL_BlitSurface(surface, IntPtr.Zero, WindowSurface, IntPtr.Zero);
+        }
+
         public void Close()
         {
             SDL.SDL_DestroyWindow(_window);
+            _window = IntPtr.Zero;
         }
     }
 }
