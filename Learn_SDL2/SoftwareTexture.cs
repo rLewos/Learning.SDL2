@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Learn.SDL2
 {
-    public class SoftwareTexture
-    {
+        public class SoftwareTexture
+        {
 
-    }
+        }
 }
